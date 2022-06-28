@@ -7,11 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 import { Routes, RouterModule} from '@angular/router';
-import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 
-//---------------------------------------------------
-// Define rotas para a aplicação
-//---------------------------------------------------
 const routes: Routes = [
   {path: 'category/:id', component: ProductListComponent},
   {path: 'category', component: ProductListComponent},
@@ -23,11 +19,10 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    ProductCategoryMenuComponent
+    ProductListComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),  // Habilita o uso das rotas
+    RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule
   ],
