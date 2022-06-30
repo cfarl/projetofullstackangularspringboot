@@ -8,14 +8,20 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './product-list-grid.component.html',
   styleUrls: ['./product-list.component.css']
 })
+
+//----------------------------------------------------
+// Classe que trata a lista de produtos
+//----------------------------------------------------
 export class ProductListComponent implements OnInit {
 
   products!: Product[];
   currentCategoryId!: number;
   searchMode!: boolean ;
 
-  constructor(private productService: ProductService,
-              private route: ActivatedRoute) { }
+  //----------------------------------------------------------------------------------------------------------------
+  // Construtor. Recebe o service chamado por essa classe e o router, usado para obter parametros passados na url
+  //----------------------------------------------------------------------------------------------------------------
+  constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(() => {
@@ -23,11 +29,18 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  //-------------------------------------------------------------------
+  // Recupera a lista de produtos, de acordo com a url informada
+  //-------------------------------------------------------------------
   listProducts() {
+    // Verifica se a url contém o parâmetro "keyword", informado em search/keyword
     this.searchMode = this.route.snapshot.paramMap.has('keyword') ;    
 
+    // Se possui o parâmetro, faz a busca pela palavra chave
     if(this.searchMode) {
       this.handleSearchProducts();
+
+    // Caso contrário, faz a busca pela categoria informada  
     } else {
       this.handleListProducts();    
     }
@@ -35,7 +48,7 @@ export class ProductListComponent implements OnInit {
 
 
   handleListProducts() {
-    // check if "id" parameter is available
+    // Verifica se foi informado o id da categoria
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');    
 
     if (hasCategoryId) {
@@ -55,10 +68,11 @@ export class ProductListComponent implements OnInit {
 
 
   handleSearchProducts() {
+    // Recupera o parâmetro "keyword"
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')! ;
     console.log(`Aqui: ${theKeyword}`) ;
 
-    // search the products using keyword
+    // Recupera produtos usando a "keyword"
     this.productService.searchProducts(theKeyword).subscribe(
       data => { this.products = data ; }
     )

@@ -2,7 +2,9 @@
     <nav class="navbar-sidebar">
       <ul class="list-unstyled navbar-list">
 
+        <!-- Percorre a lista de categorias, para montar o menu na esquerda da tela -->
         <li *ngFor="let tempProductCategory of productCategories">
+          <!-- Cada categoria gera um link /categoria/id -->  
           <a routerLink="/category/{{ tempProductCategory.id }}" routerLinkActive="active-link">
             {{ tempProductCategory.categoryName }}
           </a>

@@ -7,16 +7,26 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './product-category-menu.component.html',
   styleUrls: ['./product-category-menu.component.css']
 })
+
+//----------------------------------------------------
+// Classe que trata o menu lateral
+//----------------------------------------------------
 export class ProductCategoryMenuComponent implements OnInit {
 
   productCategories!: ProductCategory[] ;
 
+  //----------------------------------------------------------------------------------------------------------------
+  // Construtor. Recebe o service chamado por essa classe
+  //----------------------------------------------------------------------------------------------------------------  
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.listProductCategories() ;
+      this.listProductCategories() ;
   }
 
+  //------------------------------------------------------------
+  // Recupera lista de categorias, para construcao do menu
+  //------------------------------------------------------------
   listProductCategories() {
     this.productService.getProductCategories().subscribe(
       data => {
