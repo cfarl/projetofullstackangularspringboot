@@ -19,22 +19,22 @@ const routes: Routes = [
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
   {path: '', redirectTo: '/products', pathMatch: 'full'},
-  {path: '**', redirectTo: '/products', pathMatch: 'full'}
+  {path: '**', redirectTo: '/products', pathMatch: 'full'} // rota usada quando nenhuma outra bate com a configuração
 ];
 
 @NgModule({
-  declarations: [
+  declarations: [ // Define os componentes que serão usados nesse módulo
     AppComponent,
     ProductListComponent,
     ProductCategoryMenuComponent,
     SearchComponent
   ],
-  imports: [
+  imports: [  // Define os módulos que serão utilizados nesse módulo
     RouterModule.forRoot(routes),  // Habilita o uso das rotas
     BrowserModule,
     HttpClientModule
   ],
-  providers: [ProductService],
-  bootstrap: [AppComponent]
+  providers: [ProductService],  // permite a injecao do ProductService no construtor dos componentes
+  bootstrap: [AppComponent]  // Componente usado como "pai de todos" na aplicacao  
 })
 export class AppModule { }

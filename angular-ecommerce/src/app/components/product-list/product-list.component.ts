@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
+  //templateUrl: './product-list.component.html',
+  //templateUrl: './product-list-table.component.html',
   templateUrl: './product-list-grid.component.html',
   styleUrls: ['./product-list.component.css']
 })
@@ -14,8 +16,8 @@ import { ActivatedRoute } from '@angular/router';
 //----------------------------------------------------
 export class ProductListComponent implements OnInit {
 
-  products!: Product[];
-  currentCategoryId!: number;
+  products: Product[] = [] ;
+  currentCategoryId: number = 1;
   searchMode!: boolean ;
 
   //----------------------------------------------------------------------------------------------------------------
@@ -23,10 +25,13 @@ export class ProductListComponent implements OnInit {
   //----------------------------------------------------------------------------------------------------------------
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(() => {
+  //-------------------------------------------------------
+  // Método chamado na inicialização no componente
+  //-------------------------------------------------------
+  ngOnInit() : void {
+    //this.route.paramMap.subscribe(() => {
       this.listProducts();
-    });
+    //});
   }
 
   //-------------------------------------------------------------------
@@ -38,43 +43,39 @@ export class ProductListComponent implements OnInit {
 
     // Se possui o parâmetro, faz a busca pela palavra chave
     if(this.searchMode) {
-      this.handleSearchProducts();
+      this.pesquisaProdutosPorPalavraChave();
 
     // Caso contrário, faz a busca pela categoria informada  
     } else {
-      this.handleListProducts();    
+      this.pesquisaProdutosPorCategoria();    
     }
   }
 
 
-  handleListProducts() {
+  private pesquisaProdutosPorCategoria() {
     // Verifica se foi informado o id da categoria
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');    
 
-    if (hasCategoryId) {
-      // get the "id" param string. convert string to a number using the "+" symbol
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;      
-    }
-    else {
-      // not category id available ... default to category id 1
-      this.currentCategoryId = 1;
-    }
-
-    // now get the products for the given category id
-    this.productService.getProductList(this.currentCategoryId).subscribe(
+    // recupera o valor informado para o parâmetro "id" na rota. converte para number usando "+" 
+    // se o id não foi informado, deixa 1 como padrao
+    this.currentCategoryId = hasCategoryId ? +this.route.snapshot.paramMap.get('id')! : 1 ;      
+    
+    // recupera os produtos pela categoria
+    this.productService.pesquisaProdutosPorCategoria(this.currentCategoryId).subscribe(
       data => { this.products = data; }
     )
   }
 
 
-  handleSearchProducts() {
-    // Recupera o parâmetro "keyword"
-    const theKeyword: string = this.route.snapshot.paramMap.get('keyword')! ;
-    console.log(`Aqui: ${theKeyword}`) ;
+  private pesquisaProdutosPorPalavraChave() {
+    // Recupera o valor informado para o parâmetro "keyword"
+    const palavraChave: string = this.route.snapshot.paramMap.get('keyword')! ;
+
+    //console.log(`Aqui: ${theKeyword}`) ;
 
     // Recupera produtos usando a "keyword"
-    this.productService.searchProducts(theKeyword).subscribe(
-      data => { this.products = data ; }
+    this.productService.pesquisaProdutosPorPalavraChave(palavraChave).subscribe(
+      data => { this.products = data ;  }
     )
   }
 

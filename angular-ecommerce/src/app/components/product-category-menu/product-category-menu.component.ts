@@ -20,17 +20,13 @@ export class ProductCategoryMenuComponent implements OnInit {
   //----------------------------------------------------------------------------------------------------------------  
   constructor(private productService: ProductService) { }
 
-  ngOnInit(): void {
-      this.listProductCategories() ;
-  }
-
   //------------------------------------------------------------
   // Recupera lista de categorias, para construcao do menu
   //------------------------------------------------------------
-  listProductCategories() {
-    this.productService.getProductCategories().subscribe(
+  ngOnInit(): void {
+    this.productService.pesquisaCategoriasProduto().subscribe(
       data => {
-        console.log('Product Categories = ' + JSON.stringify(data)) ;
+        //console.log('Product Categories = ' + JSON.stringify(data)) ;
         this.productCategories = data ;
       }
     );
