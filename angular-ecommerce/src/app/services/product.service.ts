@@ -40,9 +40,10 @@ export class ProductService {
   // Recupra produtos da url informada
   //--------------------------------------------------    
   private pesquisaProdutos(urlPesquisa: string): Observable<Product[]> {
-    //return this.httpClient.get<GetResponseProducts>(urlPesquisa).pipe(
-    //    map(response => response._embedded.products)
-    //);
+    return this.httpClient.get<GetResponseProducts>(urlPesquisa).pipe(
+        map(response => response._embedded.products)
+    );
+    /*
     return new Observable<Product[]> ( 
       observador => { observador.next(
         [
@@ -53,15 +54,17 @@ export class ProductService {
         new Product("sku2", "The Go Programming Language: A to Z", "description2", 24.99, "assets/images/products/books/book-luv2code-1004.png", true, 200, new Date(),  new Date)        
         ]) 
     }) ;
+    */
   }
 
   //--------------------------------------------------
   // Recupera todas as categorias 
   //--------------------------------------------------    
   public pesquisaCategoriasProduto(): Observable<ProductCategory[]> {
-    //return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
-    //  map(response => response._embedded.productCategory)
-    //);
+    return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
+      map(response => response._embedded.productCategory)
+    );
+    /*
     return new Observable<ProductCategory[]> ( 
       observador => { observador.next(
         [
@@ -71,6 +74,7 @@ export class ProductService {
         new ProductCategory(4, "Luggage Tags"),
         ] )
     }) ;
+    */
   }
 }
 
